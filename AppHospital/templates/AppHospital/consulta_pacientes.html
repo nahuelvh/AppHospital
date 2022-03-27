@@ -1,0 +1,16 @@
+{% extends 'AppHospital/base.html' %}
+
+{% block main_content %}
+
+<div class="container-fluid">
+    <h2>Consultar Paciente</h2>
+
+    <form action="/AppHospital/resultado_pacientes/" method = "get">{% csrf_token %}
+
+        <p>DNI: <input type="number" name="dni" id="dni"</p>
+        <p><input type="submit" value="Buscar"></p>
+
+    </form>
+</div>
+
+{% endblock main_content %}

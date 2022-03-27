@@ -1,0 +1,14 @@
+{% extends 'AppHospital/base.html' %}
+
+{% block main_content %}
+
+<div class="container-fluid">
+    <h2>Paciente: {{paciente.nombre}} {{paciente.apellido}}</h2>
+
+        <p>DNI: {{paciente.dni}}</p>
+        <p>Obra Social: {{paciente.obra_social}}</p>
+        <p>Nro. de Afiliado: {{paciente.nro_afiliado}}</p>
+
+</div>
+
+{% endblock main_content %}

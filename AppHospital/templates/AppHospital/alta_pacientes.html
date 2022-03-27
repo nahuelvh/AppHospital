@@ -1,0 +1,20 @@
+{% extends 'AppHospital/base.html' %}
+
+{% block main_content %}
+
+<div class="container-fluid">
+    <h2>Alta de Paciente Nuevo</h2>
+
+    <form action="/AppHospital/alta_pacientes/" method = "POST">{% csrf_token %}
+
+        <p>Nombre: <input type="text" name="nombre"</p>
+        <p>Apellido: <input type="text" name="apellido"</p>
+        <p>DNI: <input type="number" name="DNI"</p>
+        <p>Obra Social: <input type="text" name="obra_social"</p>
+        <p>Nro. de Afiliado: <input type="number" name="nro_afiliado"</p>
+        <p><input type="submit" value="Guardar Paciente"></p>
+
+    </form>
+</div>
+
+{% endblock main_content %}
