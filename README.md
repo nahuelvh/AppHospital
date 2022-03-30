@@ -9,5 +9,5 @@ Funcionalidades actuales:
 - Del lado izquierdo tendremos un menú con las siguientes opciones:
   - Alta pacientes: Nos permitirá crear pacientes, impidiendonos repetir el DNI. En caso de que esto pase, nos informará que ya existe.
   - Consultar pacientes: En base a un DNI nos permitirá retornar la información de un paciente existente. En caso de que no exista nos lo indicará.
-  - Alta Médicos: Nos permitirá cargar médicos a nuestra base de datos, impidiendonos repetir el DNI. En caso de que esto pase, nos informará que ya existe.
+  - Alta Médicos: Nos permitirá cargar médicos a nuestra base de datos, impidiendonos repetir la matrícula. En caso de que esto pase, nos informará que ya existe.
   - Nuevo Turno: Nos permitirá cargar Turnos asociados a un médico y paciente determinado.
