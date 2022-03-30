@@ -8,7 +8,7 @@ class Medico(models.Model):
     nombre = models.CharField(max_length=20)
     apellido = models.CharField(max_length=30)
     especialidad = models.CharField(max_length=60)
-    dni = models.IntegerField(unique=True)
+    matricula = models.IntegerField(unique=True)
 
     def __str__(self):
         return f"{self.apellido}, {self.nombre} - {self.especialidad}"

@@ -77,7 +77,7 @@ def medicoTemplate(request):
                 datos = formulario.cleaned_data
 
                 try:
-                    medico = Medico(nombre = datos['nombre'], apellido = datos['apellido'], especialidad = datos['especialidad'], dni = datos['dni'])
+                    medico = Medico(nombre = datos['nombre'], apellido = datos['apellido'], especialidad = datos['especialidad'], matricula = datos['matricula'])
 
                     medico.save()
                     mensaje = "El médico se guardó correctamente"
