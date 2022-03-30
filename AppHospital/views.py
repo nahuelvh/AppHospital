@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 from AppHospital.models import *
+from AppHospital.forms import *
 
 # Create your views here.
 
@@ -9,30 +10,34 @@ def inicioTemplate(request):
 
     return render(request, "AppHospital/inicio.html")
 
-def turnoTemplate(request):
-
-    return render(request, "AppHospital/turnos.html")
-
-def medicoTemplate(request):
-
-    return render(request, "AppHospital/medicos.html")
-
 def pacienteTemplate(request):
 
-    if request.method == "POST":
-        
-        try:
+        if request.method == "POST":
 
-            paciente = Paciente( None, request.POST['nombre'], request.POST['apellido'], request.POST['DNI'], request.POST['obra_social'], request.POST['nro_afiliado'])
-            paciente.save()
+            formulario = PacienteFormulario(request.POST)
 
-        except:
-                  
-            return render(request, "AppHospital/alta_pacientes.html")
+            if formulario.is_valid():
 
-        return render(request, "AppHospital/alta_pacientes.html")
+                datos = formulario.cleaned_data
 
-    return render(request, "AppHospital/alta_pacientes.html")
+                try:
+                    paciente = Paciente(nombre = datos['nombre'], apellido = datos['apellido'], dni = datos['dni'], obra_social = datos['obra_social'], nro_afiliado = datos['nro_afiliado'])
+
+                    paciente.save()
+                    mensaje = "El paciente se guardó correctamente"
+                    formulario = PacienteFormulario()
+                    return render(request, "AppHospital/alta_pacientes.html", {"formulario": formulario, "Mensaje": mensaje})
+
+                except:
+                    mensaje = "El paciente ya existe"
+                    return render(request, "AppHospital/alta_pacientes.html", {"formulario": formulario, "Mensaje": mensaje})
+        else:
+
+            formulario = PacienteFormulario()
+
+            return render(request, "AppHospital/alta_pacientes.html", {"formulario": formulario})
+
+        return render(request, "AppHospital/alta_pacientes.html", {"formulario": formulario})
 
 def pacienteBusqueda(request):
 
@@ -42,13 +47,79 @@ def pacienteResultado(request):
 
     if request.GET["dni"]:
 
-        dni = request.GET.get('dni', "")
-        paciente = Paciente.objects.get(dni = dni)
-        print(paciente)
-        return render(request, "AppHospital/resultado_pacientes.html", {"paciente" : paciente})
+        try:
+
+            dni = request.GET.get('dni', "")
+            paciente = Paciente.objects.get(dni = dni)
+            
+            return render(request, "AppHospital/resultado_pacientes.html", {"paciente":paciente})
+
+        except:
+
+            mensaje = "El paciente no existe en la base de datos"
+
+            return render(request, "AppHospital/consulta_pacientes.html", {"Mensaje":mensaje})
 
     else:
 
-        respuesta = "No enviaste datos"
+        mensaje = "No enviaste datos"
 
-    return HttpResponse(respuesta)
+        return render(request, "AppHospital/consulta_pacientes.html", {"Mensaje":mensaje})
+
+def medicoTemplate(request):
+
+        if request.method == "POST":
+
+            formulario = MedicoFormulario(request.POST)
+
+            if formulario.is_valid():
+
+                datos = formulario.cleaned_data
+
+                try:
+                    medico = Medico(nombre = datos['nombre'], apellido = datos['apellido'], especialidad = datos['especialidad'], dni = datos['dni'])
+
+                    medico.save()
+                    mensaje = "El médico se guardó correctamente"
+                    formulario = MedicoFormulario()
+                    return render(request, "AppHospital/alta_medicos.html", {"formulario": formulario, "Mensaje": mensaje})
+
+                except:
+                    mensaje = "El médico ya existe"
+                    return render(request, "AppHospital/alta_medicos.html", {"formulario": formulario, "Mensaje": mensaje})
+        else:
+
+            formulario = MedicoFormulario()
+
+            return render(request, "AppHospital/alta_medicos.html", {"formulario": formulario})
+
+        return render(request, "AppHospital/alta_medicos.html", {"formulario": formulario})
+
+def turnoTemplate(request):
+
+        if request.method == "POST":
+
+            formulario = TurnoFormulario(request.POST)
+
+            if formulario.is_valid():
+
+                datos = formulario.cleaned_data
+
+                try:
+                    turno = Turno(fecha = datos['fecha'], hora = datos['hora'], paciente = datos['paciente'], medico = datos['medico'])
+
+                    turno.save()
+                    mensaje = "El Turno se guardó correctamente"
+                    formulario = TurnoFormulario()
+                    return render(request, "AppHospital/alta_turnos.html", {"formulario": formulario, "Mensaje": mensaje})
+
+                except:
+                    
+                    return render(request, "AppHospital/alta_turnos.html", {"formulario": formulario, "Mensaje": mensaje})
+        else:
+
+            formulario = TurnoFormulario()
+
+            return render(request, "AppHospital/alta_turnos.html", {"formulario": formulario})
+
+        return render(request, "AppHospital/alta_turnos.html", {"formulario": formulario})
